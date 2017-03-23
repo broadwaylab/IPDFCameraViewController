@@ -9,11 +9,11 @@
 /* Begin PBXBuildFile section */
 		22F8A00F1A6279030099DC69 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F8A00E1A6279030099DC69 /* main.m */; };
 		22F8A0121A6279030099DC69 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F8A0111A6279030099DC69 /* AppDelegate.m */; };
-		22F8A0151A6279030099DC69 /* CHCardScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F8A0141A6279030099DC69 /* CHCardScanViewController.m */; };
-		22F8A0181A6279030099DC69 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22F8A0161A6279030099DC69 /* Main.storyboard */; };
 		22F8A01A1A6279030099DC69 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22F8A0191A6279030099DC69 /* Images.xcassets */; };
 		22F8A01D1A6279030099DC69 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 22F8A01B1A6279030099DC69 /* LaunchScreen.xib */; };
-		22F8A0351A62799E0099DC69 /* IPDFCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F8A0341A62799E0099DC69 /* IPDFCameraViewController.m */; };
+		9DD3D3871E84374100AAD942 /* CHCardScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DD3D3831E84374100AAD942 /* CHCardScanViewController.m */; };
+		9DD3D3881E84374100AAD942 /* IPDFCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DD3D3861E84374100AAD942 /* IPDFCameraViewController.m */; };
+		9DD3D38A1E84378700AAD942 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DD3D3891E84378700AAD942 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,13 +22,13 @@
 		22F8A00E1A6279030099DC69 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		22F8A0101A6279030099DC69 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		22F8A0111A6279030099DC69 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		22F8A0131A6279030099DC69 /* CHCardScanViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHCardScanViewController.h; sourceTree = "<group>"; };
-		22F8A0141A6279030099DC69 /* CHCardScanViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHCardScanViewController.m; sourceTree = "<group>"; };
-		22F8A0171A6279030099DC69 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		22F8A0191A6279030099DC69 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		22F8A01C1A6279030099DC69 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		22F8A0331A62799E0099DC69 /* IPDFCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPDFCameraViewController.h; sourceTree = "<group>"; };
-		22F8A0341A62799E0099DC69 /* IPDFCameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPDFCameraViewController.m; sourceTree = "<group>"; };
+		9DD3D3831E84374100AAD942 /* CHCardScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHCardScanViewController.m; sourceTree = "<group>"; };
+		9DD3D3841E84374100AAD942 /* CHCardScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHCardScanViewController.h; sourceTree = "<group>"; };
+		9DD3D3851E84374100AAD942 /* IPDFCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPDFCameraViewController.h; sourceTree = "<group>"; };
+		9DD3D3861E84374100AAD942 /* IPDFCameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPDFCameraViewController.m; sourceTree = "<group>"; };
+		9DD3D3891E84378700AAD942 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,7 +64,6 @@
 				22F8A0101A6279030099DC69 /* AppDelegate.h */,
 				22F8A0111A6279030099DC69 /* AppDelegate.m */,
 				22F8A0321A6279850099DC69 /* IPDFCameraViewController */,
-				22F8A0161A6279030099DC69 /* Main.storyboard */,
 				22F8A01B1A6279030099DC69 /* LaunchScreen.xib */,
 				22F8A0191A6279030099DC69 /* Images.xcassets */,
 				22F8A00C1A6279030099DC69 /* Supporting Files */,
@@ -85,12 +84,21 @@
 		22F8A0321A6279850099DC69 /* IPDFCameraViewController */ = {
 			isa = PBXGroup;
 			children = (
-				22F8A0131A6279030099DC69 /* CHCardScanViewController.h */,
-				22F8A0141A6279030099DC69 /* CHCardScanViewController.m */,
-				22F8A0331A62799E0099DC69 /* IPDFCameraViewController.h */,
-				22F8A0341A62799E0099DC69 /* IPDFCameraViewController.m */,
+				9DD3D3821E84372E00AAD942 /* src */,
 			);
 			name = IPDFCameraViewController;
+			sourceTree = "<group>";
+		};
+		9DD3D3821E84372E00AAD942 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				9DD3D3891E84378700AAD942 /* Main.storyboard */,
+				9DD3D3831E84374100AAD942 /* CHCardScanViewController.m */,
+				9DD3D3841E84374100AAD942 /* CHCardScanViewController.h */,
+				9DD3D3851E84374100AAD942 /* IPDFCameraViewController.h */,
+				9DD3D3861E84374100AAD942 /* IPDFCameraViewController.m */,
+			);
+			path = src;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -151,7 +159,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22F8A0181A6279030099DC69 /* Main.storyboard in Resources */,
+				9DD3D38A1E84378700AAD942 /* Main.storyboard in Resources */,
 				22F8A01D1A6279030099DC69 /* LaunchScreen.xib in Resources */,
 				22F8A01A1A6279030099DC69 /* Images.xcassets in Resources */,
 			);
@@ -164,24 +172,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22F8A0351A62799E0099DC69 /* IPDFCameraViewController.m in Sources */,
-				22F8A0151A6279030099DC69 /* CHCardScanViewController.m in Sources */,
 				22F8A0121A6279030099DC69 /* AppDelegate.m in Sources */,
 				22F8A00F1A6279030099DC69 /* main.m in Sources */,
+				9DD3D3881E84374100AAD942 /* IPDFCameraViewController.m in Sources */,
+				9DD3D3871E84374100AAD942 /* CHCardScanViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		22F8A0161A6279030099DC69 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				22F8A0171A6279030099DC69 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		22F8A01B1A6279030099DC69 /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (

@@ -10,6 +10,6 @@ Pod::Spec.new do |s|
     s.social_media_url   = "https://twitter.com/mmackh"
     s.platform     = :ios, "8.0"
     s.source       = { :git => "https://github.com/mmackh/IPDFCameraViewController.git", :tag => "#{s.version}" }
-    s.source_files  = "IPDFCameraViewController/*.{h,m}"
+    s.source_files  = "IPDFCameraViewController/src/*"
     s.framework        = 'AVFoundation', 'GLKit', 'ImageIO', 'CoreMedia', 'CoreVideo', 'CoreImage'
 end
