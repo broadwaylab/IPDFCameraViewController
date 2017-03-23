@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		22F8A00F1A6279030099DC69 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F8A00E1A6279030099DC69 /* main.m */; };
 		22F8A0121A6279030099DC69 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F8A0111A6279030099DC69 /* AppDelegate.m */; };
-		22F8A0151A6279030099DC69 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F8A0141A6279030099DC69 /* ViewController.m */; };
+		22F8A0151A6279030099DC69 /* CHCardScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F8A0141A6279030099DC69 /* CHCardScanViewController.m */; };
 		22F8A0181A6279030099DC69 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22F8A0161A6279030099DC69 /* Main.storyboard */; };
 		22F8A01A1A6279030099DC69 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22F8A0191A6279030099DC69 /* Images.xcassets */; };
 		22F8A01D1A6279030099DC69 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 22F8A01B1A6279030099DC69 /* LaunchScreen.xib */; };
@@ -22,8 +22,8 @@
 		22F8A00E1A6279030099DC69 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		22F8A0101A6279030099DC69 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		22F8A0111A6279030099DC69 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		22F8A0131A6279030099DC69 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		22F8A0141A6279030099DC69 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		22F8A0131A6279030099DC69 /* CHCardScanViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHCardScanViewController.h; sourceTree = "<group>"; };
+		22F8A0141A6279030099DC69 /* CHCardScanViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CHCardScanViewController.m; sourceTree = "<group>"; };
 		22F8A0171A6279030099DC69 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		22F8A0191A6279030099DC69 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		22F8A01C1A6279030099DC69 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -63,8 +63,6 @@
 			children = (
 				22F8A0101A6279030099DC69 /* AppDelegate.h */,
 				22F8A0111A6279030099DC69 /* AppDelegate.m */,
-				22F8A0131A6279030099DC69 /* ViewController.h */,
-				22F8A0141A6279030099DC69 /* ViewController.m */,
 				22F8A0321A6279850099DC69 /* IPDFCameraViewController */,
 				22F8A0161A6279030099DC69 /* Main.storyboard */,
 				22F8A01B1A6279030099DC69 /* LaunchScreen.xib */,
@@ -87,6 +85,8 @@
 		22F8A0321A6279850099DC69 /* IPDFCameraViewController */ = {
 			isa = PBXGroup;
 			children = (
+				22F8A0131A6279030099DC69 /* CHCardScanViewController.h */,
+				22F8A0141A6279030099DC69 /* CHCardScanViewController.m */,
 				22F8A0331A62799E0099DC69 /* IPDFCameraViewController.h */,
 				22F8A0341A62799E0099DC69 /* IPDFCameraViewController.m */,
 			);
@@ -124,7 +124,7 @@
 				TargetAttributes = {
 					22F8A0081A6279030099DC69 = {
 						CreatedOnToolsVersion = 6.1.1;
-						DevelopmentTeam = YNWWNUC3W6;
+						DevelopmentTeam = UW63NW2D6H;
 					};
 				};
 			};
@@ -165,7 +165,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				22F8A0351A62799E0099DC69 /* IPDFCameraViewController.m in Sources */,
-				22F8A0151A6279030099DC69 /* ViewController.m in Sources */,
+				22F8A0151A6279030099DC69 /* CHCardScanViewController.m in Sources */,
 				22F8A0121A6279030099DC69 /* AppDelegate.m in Sources */,
 				22F8A00F1A6279030099DC69 /* main.m in Sources */,
 			);
@@ -280,7 +280,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = YNWWNUC3W6;
+				DEVELOPMENT_TEAM = UW63NW2D6H;
 				INFOPLIST_FILE = IPDFCameraViewController/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mackh.$(PRODUCT_NAME:rfc1034identifier)";
@@ -292,7 +292,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = YNWWNUC3W6;
+				DEVELOPMENT_TEAM = UW63NW2D6H;
 				INFOPLIST_FILE = IPDFCameraViewController/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mackh.$(PRODUCT_NAME:rfc1034identifier)";
