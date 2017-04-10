@@ -38,8 +38,6 @@
     // Auto capture
     self.cameraViewController.delegate = self;
     self.cameraViewController.autoCaptureEnabled = YES;
-    
-    [self updateTitleLabel];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -149,6 +147,7 @@
 
 - (void)processImageAt:(NSString *)imageFilePath {
     UIImage *captureImage = [UIImage imageWithContentsOfFile:imageFilePath];
+    __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         if (weakSelf.delegate != nil) {
             [weakSelf.delegate viewController:self
@@ -161,7 +160,6 @@
 #pragma mark - IPDFCameraViewControllerCaptureDelegate
 
 - (void)cameraViewController:(IPDFCameraViewController *)controller didAutoCaptureWith:(NSString *)imageFilePath {
-    self.cameraViewController.autoCaptureEnabled = NO;
     [self processImageAt:imageFilePath];
 }
 

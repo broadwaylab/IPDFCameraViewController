@@ -97,6 +97,7 @@ const CGFloat IMAGE_DETECTION_CONFIDENCE_THRESHOLD = 20;
         _imageDedectionConfidence >= self.confidenceThreshold &&
         !self.autoCapturing) {
         self.autoCapturing = YES;
+        self.autoCaptureEnabled = NO;
         [self captureImageWithCompletionHander:nil];
     }
 }
