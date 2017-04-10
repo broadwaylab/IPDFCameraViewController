@@ -148,39 +148,20 @@
 #pragma mark - Image processing
 
 - (void)processImageAt:(NSString *)imageFilePath {
-    
-//    UIImage *captureImage = [UIImage imageWithContentsOfFile:imageFilePath];
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        if (weakSelf.delegate != nil) {
-//            
-//            [weakSelf.delegate viewController:self
-//                        didFinishPickingImage:captureImage];
-//        }
-//    });
-    
-    self.cameraViewController.autoCaptureEnabled = NO;
-    
-    UIImageView *captureImageView = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:imageFilePath]];
-    captureImageView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.7];
-    captureImageView.frame = CGRectOffset(self.view.bounds, 0, -self.view.bounds.size.height);
-    captureImageView.alpha = 1.0;
-    captureImageView.contentMode = UIViewContentModeScaleAspectFit;
-    captureImageView.userInteractionEnabled = YES;
-    [self.view addSubview:captureImageView];
-    
-    UITapGestureRecognizer *dismissTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissPreview:)];
-    [captureImageView addGestureRecognizer:dismissTap];
-    
-    [UIView animateWithDuration:0.7 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:0.7 options:UIViewAnimationOptionAllowUserInteraction animations:^
-     {
-         captureImageView.frame = self.view.bounds;
-     } completion:nil];
+    UIImage *captureImage = [UIImage imageWithContentsOfFile:imageFilePath];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (weakSelf.delegate != nil) {
+            [weakSelf.delegate viewController:self
+                        didFinishPickingImage:captureImage];
+        }
+    });
 }
 
 #pragma mark -
 #pragma mark - IPDFCameraViewControllerCaptureDelegate
 
 - (void)cameraViewController:(IPDFCameraViewController *)controller didAutoCaptureWith:(NSString *)imageFilePath {
+    self.cameraViewController.autoCaptureEnabled = NO;
     [self processImageAt:imageFilePath];
 }
 
