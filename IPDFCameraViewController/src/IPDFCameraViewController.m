@@ -19,6 +19,8 @@
 
 #import <GLKit/GLKit.h>
 
+const CGFloat IMAGE_DETECTION_CONFIDENCE_THRESHOLD = 20;
+
 @interface IPDFRectangleFeature : NSObject
 
 @property (nonatomic) CGPoint topLeft;
@@ -38,6 +40,8 @@
 
 @property (nonatomic, assign) BOOL forceStop;
 @property (nonatomic, assign) CGSize intrinsicContentSize;
+@property (nonatomic, assign) CGFloat imageDedectionConfidence;
+@property (nonatomic, assign) BOOL autoCapturing;
 
 @end
 
@@ -49,7 +53,6 @@
     
     BOOL _isStopped;
     
-    CGFloat _imageDedectionConfidence;
     NSTimer *_borderDetectTimeKeeper;
     BOOL _borderDetectFrame;
     CIRectangleFeature *_borderDetectLastRectangleFeature;
@@ -67,6 +70,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_foregroundMode) name:UIApplicationDidBecomeActiveNotification object:nil];
     
     _captureQueue = dispatch_queue_create("com.instapdf.AVCameraCaptureQueue", DISPATCH_QUEUE_SERIAL);
+    _confidenceThreshold = IMAGE_DETECTION_CONFIDENCE_THRESHOLD;
 }
 
 - (void)_backgroundMode
@@ -77,6 +81,25 @@
 - (void)_foregroundMode
 {
     self.forceStop = NO;
+}
+
+- (void)setImageDedectionConfidence:(CGFloat)imageDedectionConfidence {
+    _imageDedectionConfidence = imageDedectionConfidence;
+    
+    if(self.isAutoCaptureEnabled &&
+       [self.delegate conformsToProtocol:@protocol(IPDFCameraViewControllerCaptureDelegate)] &&
+       [self.delegate respondsToSelector:@selector(cameraViewController:didDetectPatronWithConfidence:)]) {
+        NSAssert(self.confidenceThreshold > 0, @"Confidence Threshold cannot be zero or less");
+        [self.delegate cameraViewController:self didDetectPatronWithConfidence:MIN(_imageDedectionConfidence/self.confidenceThreshold, 1.0)];
+    }
+    
+    if (self.isAutoCaptureEnabled &&
+        _imageDedectionConfidence >= self.confidenceThreshold &&
+        !self.autoCapturing) {
+        self.autoCapturing = YES;
+        self.autoCaptureEnabled = NO;
+        [self captureImageWithCompletionHander:nil];
+    }
 }
 
 - (void)dealloc
@@ -108,7 +131,7 @@
     AVCaptureDevice *device = [possibleDevices firstObject];
     if (!device) return;
     
-    _imageDedectionConfidence = 0.0;
+    self.imageDedectionConfidence = 0.0;
     
     AVCaptureSession *session = [[AVCaptureSession alloc] init];
     self.captureSession = session;
@@ -193,13 +216,13 @@
         
         if (_borderDetectLastRectangleFeature)
         {
-            _imageDedectionConfidence += .5;
+            self.imageDedectionConfidence += .5;
             
             image = [self drawHighlightOverlayForPoints:image topLeft:_borderDetectLastRectangleFeature.topLeft topRight:_borderDetectLastRectangleFeature.topRight bottomLeft:_borderDetectLastRectangleFeature.bottomLeft bottomRight:_borderDetectLastRectangleFeature.bottomRight];
         }
         else
         {
-            _imageDedectionConfidence = 0.0f;
+            self.imageDedectionConfidence = 0.0f;
         }
     }
     
@@ -336,7 +359,7 @@
     }
 }
 
-- (void)captureImageWithCompletionHander:(void(^)(NSString *imageFilePath))completionHandler
+- (void)captureImageWithCompletionHander:(IPDFCameraCaptureBlock)completionHandler
 {
     dispatch_suspend(_captureQueue);
     
@@ -381,7 +404,7 @@
                  enhancedImage = [self filteredImageUsingContrastFilterOnImage:enhancedImage];
              }
              
-             if (weakSelf.isBorderDetectionEnabled && rectangleDetectionConfidenceHighEnough(_imageDedectionConfidence))
+             if (weakSelf.isBorderDetectionEnabled && rectangleDetectionConfidenceHighEnough(weakSelf.imageDedectionConfidence))
              {
                  CIRectangleFeature *rectangleFeature = [self biggestRectangleInRectangles:[[self highAccuracyRectangleDetector] featuresInImage:enhancedImage]];
                  
@@ -434,11 +457,19 @@
              
              dispatch_async(dispatch_get_main_queue(), ^
              {
-                completionHandler(filePath);
+                 if (completionHandler != nil) {
+                     completionHandler(filePath);
+                 }
+                 if (weakSelf.isAutoCaptureEnabled &&
+                     [weakSelf.delegate conformsToProtocol:@protocol(IPDFCameraViewControllerCaptureDelegate)] &&
+                     [weakSelf.delegate respondsToSelector:@selector(cameraViewController:didAutoCaptureWith:)]) {
+                     [weakSelf.delegate cameraViewController:weakSelf didAutoCaptureWith:filePath];
+                     weakSelf.autoCapturing = NO;
+                 }
                 dispatch_resume(_captureQueue);
              });
              
-             _imageDedectionConfidence = 0.0f;
+             self.imageDedectionConfidence = 0.0f;
          }
      }];
 }
