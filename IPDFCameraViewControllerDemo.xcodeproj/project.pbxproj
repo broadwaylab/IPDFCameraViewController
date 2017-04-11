@@ -11,9 +11,9 @@
 		22F8A0121A6279030099DC69 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F8A0111A6279030099DC69 /* AppDelegate.m */; };
 		22F8A01A1A6279030099DC69 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22F8A0191A6279030099DC69 /* Images.xcassets */; };
 		22F8A01D1A6279030099DC69 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 22F8A01B1A6279030099DC69 /* LaunchScreen.xib */; };
+		5738EF6B1E9D789C007C9504 /* CHCardScanViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5738EF6A1E9D789C007C9504 /* CHCardScanViewController.storyboard */; };
 		9DD3D3871E84374100AAD942 /* CHCardScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DD3D3831E84374100AAD942 /* CHCardScanViewController.m */; };
 		9DD3D3881E84374100AAD942 /* IPDFCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DD3D3861E84374100AAD942 /* IPDFCameraViewController.m */; };
-		9DD3D38A1E84378700AAD942 /* CHCardScanViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DD3D3891E84378700AAD942 /* CHCardScanViewController.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,11 +24,11 @@
 		22F8A0111A6279030099DC69 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		22F8A0191A6279030099DC69 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		22F8A01C1A6279030099DC69 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		5738EF6A1E9D789C007C9504 /* CHCardScanViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CHCardScanViewController.storyboard; sourceTree = "<group>"; };
 		9DD3D3831E84374100AAD942 /* CHCardScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHCardScanViewController.m; sourceTree = "<group>"; };
 		9DD3D3841E84374100AAD942 /* CHCardScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHCardScanViewController.h; sourceTree = "<group>"; };
 		9DD3D3851E84374100AAD942 /* IPDFCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPDFCameraViewController.h; sourceTree = "<group>"; };
 		9DD3D3861E84374100AAD942 /* IPDFCameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPDFCameraViewController.m; sourceTree = "<group>"; };
-		9DD3D3891E84378700AAD942 /* CHCardScanViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CHCardScanViewController.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +84,7 @@
 		22F8A0321A6279850099DC69 /* IPDFCameraViewController */ = {
 			isa = PBXGroup;
 			children = (
+				5738EF6A1E9D789C007C9504 /* CHCardScanViewController.storyboard */,
 				9DD3D3821E84372E00AAD942 /* src */,
 			);
 			name = IPDFCameraViewController;
@@ -92,7 +93,6 @@
 		9DD3D3821E84372E00AAD942 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				9DD3D3891E84378700AAD942 /* CHCardScanViewController.storyboard */,
 				9DD3D3841E84374100AAD942 /* CHCardScanViewController.h */,
 				9DD3D3831E84374100AAD942 /* CHCardScanViewController.m */,
 				9DD3D3851E84374100AAD942 /* IPDFCameraViewController.h */,
@@ -159,8 +159,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9DD3D38A1E84378700AAD942 /* CHCardScanViewController.storyboard in Resources */,
 				22F8A01D1A6279030099DC69 /* LaunchScreen.xib in Resources */,
+				5738EF6B1E9D789C007C9504 /* CHCardScanViewController.storyboard in Resources */,
 				22F8A01A1A6279030099DC69 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

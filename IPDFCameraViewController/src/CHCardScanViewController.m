@@ -17,7 +17,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet IPDFCameraViewController *cameraViewController;
 @property (weak, nonatomic) IBOutlet UIImageView *focusIndicator;
-@property (assign, nonatomic, getter=isShowingLoadingView) BOOL showingLoadingView;
+@property (strong, nonatomic) UILabel *percentageLabel;
+@property (strong, nonatomic) NSNumberFormatter *formatter;
 
 - (IBAction)focusGesture:(id)sender;
 
@@ -43,6 +44,21 @@
     
     // Overlay
     self.overlayColor = [UIColor redColor];
+    
+    self.percentageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.percentageLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:self.percentageLabel];
+    [[self.percentageLabel.heightAnchor constraintEqualToConstant:30] setActive:YES];
+    [[self.percentageLabel.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor] setActive:YES];
+    [[self.percentageLabel.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor] setActive:YES];
+    [[self.percentageLabel.centerYAnchor constraintEqualToAnchor:self.view.centerYAnchor] setActive:YES];
+    self.percentageLabel.textColor = [UIColor whiteColor];
+    self.percentageLabel.font = [UIFont fontWithName:@"DINAlternate-Bold" size:22];
+    self.percentageLabel.text = nil;
+    self.percentageLabel.textAlignment = NSTextAlignmentCenter;
+    
+    self.formatter = [[NSNumberFormatter alloc] init];
+    [self.formatter setNumberStyle:NSNumberFormatterPercentStyle];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -176,62 +192,14 @@
 }
 
 - (void)cameraViewController:(IPDFCameraViewController *)controller didDetectPatronWithConfidence:(CGFloat)confidence {
-    if (confidence <= 0) {
-        [self hideLoadingView];
-    } else {
-        [self showLoadingView];
-    }
-    if([self.delegate conformsToProtocol:@protocol(CHCardScanViewControllerDelegate)] &&
-       [self.delegate respondsToSelector:@selector(viewController:didDetectPatronWithConfidence:)]) {
-        [self.delegate viewController:self didDetectPatronWithConfidence:confidence];
-    }
-}
-
-#pragma mark - 
-#pragma mark - Loading View
-
-- (void)showLoadingView {
-    
-    if (self.isShowingLoadingView) { return; }
-    
-    self.showingLoadingView = YES;
-    
     __weak typeof(self) weakSelf = self;
-    self.loadingView.alpha = 0;
-    [self.view addSubview:self.loadingView];
-    self.loadingView.center = self.view.center;
     dispatch_async(dispatch_get_main_queue(), ^{
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        __weak typeof(strongSelf) weakSelf = strongSelf;
-        [UIView animateWithDuration:0.1
-                         animations:^{
-                             weakSelf.loadingView.alpha = 1;
-                         } completion:^(BOOL finished) {
-                             if([weakSelf.delegate respondsToSelector:@selector(viewControllerDidShowLoadingView:)]) {
-                                 [weakSelf.delegate viewControllerDidShowLoadingView:weakSelf];
-                             }
-                         }];
+        if (confidence <= 0) {
+            weakSelf.percentageLabel.text = nil;
+        } else {
+            weakSelf.percentageLabel.text = [self.formatter stringFromNumber:@(confidence)];
+        }
     });
-}
-
-- (void)hideLoadingView {
-    if(self.isShowingLoadingView) {
-        __weak typeof(self) weakSelf = self;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            __weak typeof(strongSelf) weakSelf = strongSelf;
-            [UIView animateWithDuration:0.1
-                             animations:^{
-                                 weakSelf.loadingView.alpha = 0;
-                             } completion:^(BOOL finished) {
-                                 [weakSelf.loadingView removeFromSuperview];
-                                 weakSelf.showingLoadingView = NO;
-                                 if([weakSelf.delegate respondsToSelector:@selector(viewControllerDidHideLoadingView:)]) {
-                                     [weakSelf.delegate viewControllerDidHideLoadingView:weakSelf];
-                                 }
-                             }];
-        });
-    }
 }
 
 @end
