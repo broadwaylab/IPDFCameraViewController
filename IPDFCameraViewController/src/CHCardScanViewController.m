@@ -40,6 +40,9 @@
     // Auto capture
     self.cameraViewController.delegate = self;
     self.cameraViewController.autoCaptureEnabled = YES;
+    
+    // Overlay
+    self.overlayColor = [UIColor redColor];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -50,6 +53,14 @@
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;
+}
+
+#pragma mark - 
+#pragma mark - Overlay Color
+
+- (void)setOverlayColor:(UIColor *)overlayColor {
+    _overlayColor = overlayColor;
+    self.cameraViewController.overlayColor = overlayColor;
 }
 
 #pragma mark -

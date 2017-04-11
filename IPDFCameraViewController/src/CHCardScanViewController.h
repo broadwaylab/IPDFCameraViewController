@@ -23,7 +23,7 @@
 @interface CHCardScanViewController : UIViewController
 
 @property (nonatomic, assign) id<CHCardScanViewControllerDelegate> delegate;
-@property (nonatomic, strong) NSString *overlayColor;
+@property (nonatomic, weak) UIColor *overlayColor;
 @property (nonatomic, weak) UIView *loadingView;
 
 @end
