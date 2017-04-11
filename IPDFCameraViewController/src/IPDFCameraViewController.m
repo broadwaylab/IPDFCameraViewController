@@ -460,7 +460,7 @@ const CGFloat IMAGE_DETECTION_CONFIDENCE_THRESHOLD = 20;
                  if (completionHandler != nil) {
                      completionHandler(filePath);
                  }
-                 if (weakSelf.isAutoCaptureEnabled &&
+                 if (weakSelf.autoCapturing &&
                      [weakSelf.delegate conformsToProtocol:@protocol(IPDFCameraViewControllerCaptureDelegate)] &&
                      [weakSelf.delegate respondsToSelector:@selector(cameraViewController:didAutoCaptureWith:)]) {
                      [weakSelf.delegate cameraViewController:weakSelf didAutoCaptureWith:filePath];
