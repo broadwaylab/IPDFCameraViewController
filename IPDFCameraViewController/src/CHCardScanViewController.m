@@ -17,6 +17,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet IPDFCameraViewController *cameraViewController;
 @property (weak, nonatomic) IBOutlet UIImageView *focusIndicator;
+@property (assign, nonatomic, getter=isShowingLoadingView) BOOL showingLoadingView;
+
 - (IBAction)focusGesture:(id)sender;
 
 - (IBAction)captureButton:(id)sender;
@@ -163,9 +165,61 @@
 }
 
 - (void)cameraViewController:(IPDFCameraViewController *)controller didDetectPatronWithConfidence:(CGFloat)confidence {
+    if (confidence <= 0) {
+        [self hideLoadingView];
+    } else {
+        [self showLoadingView];
+    }
     if([self.delegate conformsToProtocol:@protocol(CHCardScanViewControllerDelegate)] &&
        [self.delegate respondsToSelector:@selector(viewController:didDetectPatronWithConfidence:)]) {
         [self.delegate viewController:self didDetectPatronWithConfidence:confidence];
+    }
+}
+
+#pragma mark - 
+#pragma mark - Loading View
+
+- (void)showLoadingView {
+    
+    if (self.isShowingLoadingView) { return; }
+    
+    self.showingLoadingView = YES;
+    
+    __weak typeof(self) weakSelf = self;
+    self.loadingView.alpha = 0;
+    [self.view addSubview:self.loadingView];
+    self.loadingView.center = self.view.center;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        __weak typeof(strongSelf) weakSelf = strongSelf;
+        [UIView animateWithDuration:0.1
+                         animations:^{
+                             weakSelf.loadingView.alpha = 1;
+                         } completion:^(BOOL finished) {
+                             if([weakSelf.delegate respondsToSelector:@selector(viewControllerDidShowLoadingView:)]) {
+                                 [weakSelf.delegate viewControllerDidShowLoadingView:weakSelf];
+                             }
+                         }];
+    });
+}
+
+- (void)hideLoadingView {
+    if(self.isShowingLoadingView) {
+        __weak typeof(self) weakSelf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            __weak typeof(strongSelf) weakSelf = strongSelf;
+            [UIView animateWithDuration:0.1
+                             animations:^{
+                                 weakSelf.loadingView.alpha = 0;
+                             } completion:^(BOOL finished) {
+                                 [weakSelf.loadingView removeFromSuperview];
+                                 weakSelf.showingLoadingView = NO;
+                                 if([weakSelf.delegate respondsToSelector:@selector(viewControllerDidHideLoadingView:)]) {
+                                     [weakSelf.delegate viewControllerDidHideLoadingView:weakSelf];
+                                 }
+                             }];
+        });
     }
 }
 
