@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@class CHCardScanViewController;
+
 @protocol CHCardScanViewControllerDelegate <NSObject>
 
-- (void)viewController:(UIViewController *)viewController didFinishPickingImage:(UIImage *)image;
-- (void)viewControllerDidCancel:(UIViewController *)viewController;
+- (void)viewController:(CHCardScanViewController *)viewController didFinishPickingImage:(UIImage *)image;
+- (void)viewControllerDidCancel:(CHCardScanViewController *)viewController;
+- (void)viewController:(CHCardScanViewController *)controller didDetectPatronWithConfidence:(CGFloat)confidence;
 
 @end
 

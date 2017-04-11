@@ -113,7 +113,6 @@
     [button setTitleColor:(enabled) ? [UIColor colorWithRed:1 green:0.81 blue:0 alpha:1] : [UIColor whiteColor] forState:UIControlStateNormal];
 }
 
-
 #pragma mark -
 #pragma mark CameraVC Capture Image
 
@@ -164,8 +163,10 @@
 }
 
 - (void)cameraViewController:(IPDFCameraViewController *)controller didDetectPatronWithConfidence:(CGFloat)confidence {
-    // Here we will show the HUD with the percentage of capture accuracy, I left this outside to avoid add more dependencies
-    NSLog(@"Confidence: %f", confidence);
+    if([self.delegate conformsToProtocol:@protocol(CHCardScanViewControllerDelegate)] &&
+       [self.delegate respondsToSelector:@selector(viewController:didDetectPatronWithConfidence:)]) {
+        [self.delegate viewController:self didDetectPatronWithConfidence:confidence];
+    }
 }
 
 @end

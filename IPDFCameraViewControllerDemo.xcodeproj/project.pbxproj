@@ -93,8 +93,8 @@
 			isa = PBXGroup;
 			children = (
 				9DD3D3891E84378700AAD942 /* Main.storyboard */,
-				9DD3D3831E84374100AAD942 /* CHCardScanViewController.m */,
 				9DD3D3841E84374100AAD942 /* CHCardScanViewController.h */,
+				9DD3D3831E84374100AAD942 /* CHCardScanViewController.m */,
 				9DD3D3851E84374100AAD942 /* IPDFCameraViewController.h */,
 				9DD3D3861E84374100AAD942 /* IPDFCameraViewController.m */,
 			);
