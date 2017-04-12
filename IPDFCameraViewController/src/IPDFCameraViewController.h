@@ -76,6 +76,8 @@ typedef void (^IPDFCameraCaptureBlock)(NSString *imageFilePath);
 
 @property (nonatomic,assign) IPDFCameraViewType cameraViewType;
 
+@property (assign, nonatomic) BOOL forceBlackAndWhiteCapture;
+
 @property (nonatomic, strong) UIColor *overlayColor;
 
 - (void)focusAtPoint:(CGPoint)point completionHandler:(void(^)())completionHandler;

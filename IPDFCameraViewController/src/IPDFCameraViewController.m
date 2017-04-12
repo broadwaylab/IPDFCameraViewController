@@ -394,8 +394,10 @@ const CGFloat IMAGE_DETECTION_CONFIDENCE_THRESHOLD = 20;
              NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageSampleBuffer];
              CIImage *enhancedImage = [[CIImage alloc] initWithData:imageData options:@{kCIImageColorSpace:[NSNull null]}];
              imageData = nil;
-             
-             if (weakSelf.cameraViewType == IPDFCameraViewTypeBlackAndWhite)
+                          
+             if (weakSelf.forceBlackAndWhiteCapture) {
+                 enhancedImage = [self filteredImageUsingEnhanceFilterOnImage:enhancedImage];
+             } else if (weakSelf.cameraViewType == IPDFCameraViewTypeBlackAndWhite)
              {
                  enhancedImage = [self filteredImageUsingEnhanceFilterOnImage:enhancedImage];
              }

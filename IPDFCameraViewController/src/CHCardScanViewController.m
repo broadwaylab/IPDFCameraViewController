@@ -42,6 +42,7 @@
     self.cameraViewController.delegate = self;
     self.cameraViewController.autoCaptureEnabled = YES;
     [self.cameraViewController setCameraViewType:IPDFCameraViewTypeNormal];
+    [self.cameraViewController setForceBlackAndWhiteCapture:YES];
     
     // Overlay
     self.overlayColor = [UIColor redColor];
