@@ -7,18 +7,20 @@
 //
 
 #import "CHCardScanViewController.h"
-
 #import "IPDFCameraViewController.h"
+#import "CHCapturePreviewViewController.h"
 
 @interface CHCardScanViewController ()
 
-<IPDFCameraViewControllerCaptureDelegate>
+<IPDFCameraViewControllerCaptureDelegate,
+CHCapturePreviewViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet IPDFCameraViewController *cameraViewController;
 @property (weak, nonatomic) IBOutlet UIImageView *focusIndicator;
 @property (strong, nonatomic) UILabel *percentageLabel;
 @property (strong, nonatomic) NSNumberFormatter *formatter;
+@property (strong, nonatomic) UIImage *captureImage;
 
 - (IBAction)focusGesture:(id)sender;
 
@@ -179,9 +181,42 @@
     UIImage *captureImage = [UIImage imageWithContentsOfFile:imageFilePath];
     __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (weakSelf.delegate != nil) {
-            [weakSelf.delegate viewController:self
-                        didFinishPickingImage:captureImage];
+        [weakSelf showPreviewControllerWithImage:captureImage];
+    });
+}
+
+#pragma mark - 
+#pragma mark - Preview, CHCapturePreviewViewControllerDelegate
+
+- (void)showPreviewControllerWithImage:(UIImage *)image {
+    self.captureImage = image;
+    
+    CHCapturePreviewViewController *previewViewController = [[CHCapturePreviewViewController alloc] init];
+    previewViewController.delegate = self;
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:previewViewController];
+    navigationController.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    previewViewController.picture = self.captureImage;
+    
+    __weak typeof(self) weakSelf = self;
+    [self presentViewController:navigationController animated:YES completion:^{
+        [weakSelf.cameraViewController pauseCapture];
+        weakSelf.percentageLabel.text = nil;
+    }];
+}
+
+- (void)capturePreviewViewControllerDidSelectRetakeOption:(CHCapturePreviewViewController *)controller {
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf dismissViewControllerAnimated:YES completion:nil];
+        [weakSelf.cameraViewController resumeCapture];
+    });
+}
+
+- (void)capturePreviewViewControllerDidSelectContinueOption:(CHCapturePreviewViewController *)controller {
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([weakSelf.delegate respondsToSelector:@selector(viewController:didFinishPickingImage:)]) {
+            [weakSelf.delegate viewController:self didFinishPickingImage:weakSelf.captureImage];
         }
     });
 }

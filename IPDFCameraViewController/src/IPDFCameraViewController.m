@@ -208,6 +208,7 @@ const CGFloat IMAGE_DETECTION_CONFIDENCE_THRESHOLD = 20;
     
     if (self.isBorderDetectionEnabled)
     {
+//        NSLog(@"Detecting borders ... ");
         if (_borderDetectFrame)
         {
             _borderDetectLastRectangleFeature = [self biggestRectangleInRectangles:[[self highAccuracyRectangleDetector] featuresInImage:image]];
@@ -625,6 +626,18 @@ void saveCGImageAsJPEGToFilePath(CGImageRef imageRef, NSString *filePath)
 BOOL rectangleDetectionConfidenceHighEnough(float confidence)
 {
     return (confidence > 1.0);
+}
+
+- (void)pauseCapture {
+    self.enableBorderDetection = NO;
+    self.imageDedectionConfidence = 0;
+    self.autoCaptureEnabled = NO;
+}
+
+- (void)resumeCapture {
+    self.enableBorderDetection = YES;
+    self.imageDedectionConfidence = 0;
+    self.autoCaptureEnabled = YES;
 }
 
 @end

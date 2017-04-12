@@ -80,6 +80,9 @@ typedef void (^IPDFCameraCaptureBlock)(NSString *imageFilePath);
 
 @property (nonatomic, strong) UIColor *overlayColor;
 
+- (void)pauseCapture;
+- (void)resumeCapture;
+
 - (void)focusAtPoint:(CGPoint)point completionHandler:(void(^)())completionHandler;
 
 - (void)captureImageWithCompletionHander:(IPDFCameraCaptureBlock)completionHandler;
