@@ -180,7 +180,7 @@ CHCapturePreviewViewControllerDelegate>
     __weak typeof(self) weakSelf = self;
     [UIView animateWithDuration:0.2f
                      animations:^{
-        weakSelf.titleLabel.alpha = 1;
+        weakSelf.titleView.alpha = 1;
         weakSelf.controlsView.alpha = 1;
     }];
 }
@@ -189,7 +189,7 @@ CHCapturePreviewViewControllerDelegate>
     __weak typeof(self) weakSelf = self;
     [UIView animateWithDuration:0.2f
                      animations:^{
-        weakSelf.titleLabel.alpha = 0;
+        weakSelf.titleView.alpha = 0;
         weakSelf.controlsView.alpha = 0;
     }];
 }

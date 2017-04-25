@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIView *controlsView;
 @property (weak, nonatomic) IBOutlet UIImageView *focusIndicator;
+@property (weak, nonatomic) IBOutlet UIView *titleView;
 
 - (void)showControls;
 - (void)hideControls;
