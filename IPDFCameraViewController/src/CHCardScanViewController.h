@@ -20,5 +20,14 @@
 @property (nonatomic, assign) id<CHCardScanViewControllerDelegate> delegate;
 @property (nonatomic, weak) UIColor *overlayColor;
 
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UIView *controlsView;
+@property (weak, nonatomic) IBOutlet UIImageView *focusIndicator;
+
+- (void)showControls;
+- (void)hideControls;
+- (void)pauseCapturing;
+- (void)resumeCapturing;
+
 @end
 

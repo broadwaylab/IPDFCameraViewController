@@ -15,15 +15,12 @@
 <IPDFCameraViewControllerCaptureDelegate,
 CHCapturePreviewViewControllerDelegate>
 
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet IPDFCameraViewController *cameraViewController;
-@property (weak, nonatomic) IBOutlet UIImageView *focusIndicator;
 @property (strong, nonatomic) UILabel *percentageLabel;
 @property (strong, nonatomic) NSNumberFormatter *formatter;
 @property (strong, nonatomic) UIImage *captureImage;
 
 - (IBAction)focusGesture:(id)sender;
-
 - (IBAction)captureButton:(id)sender;
 
 @end
@@ -67,7 +64,9 @@ CHCapturePreviewViewControllerDelegate>
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
     [self.cameraViewController start];
+    [self pauseCapturing];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
@@ -175,6 +174,40 @@ CHCapturePreviewViewControllerDelegate>
 }
 
 #pragma mark - 
+#pragma mark - Controls
+
+- (void)showControls {
+    __weak typeof(self) weakSelf = self;
+    [UIView animateWithDuration:0.2f
+                     animations:^{
+        weakSelf.titleLabel.alpha = 1;
+        weakSelf.controlsView.alpha = 1;
+    }];
+}
+
+- (void)hideControls {
+    __weak typeof(self) weakSelf = self;
+    [UIView animateWithDuration:0.2f
+                     animations:^{
+        weakSelf.titleLabel.alpha = 0;
+        weakSelf.controlsView.alpha = 0;
+    }];
+}
+
+
+#pragma mark - 
+#pragma mark - Capturing
+
+- (void)pauseCapturing {
+    [self.cameraViewController pauseCapture];
+    self.percentageLabel.text = nil;
+}
+
+- (void)resumeCapturing {
+    [self.cameraViewController resumeCapture];
+}
+
+#pragma mark - 
 #pragma mark - Image processing
 
 - (void)processImageAt:(NSString *)imageFilePath {
@@ -197,18 +230,27 @@ CHCapturePreviewViewControllerDelegate>
     navigationController.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     previewViewController.picture = self.captureImage;
     
-    __weak typeof(self) weakSelf = self;
-    [self presentViewController:navigationController animated:YES completion:^{
-        [weakSelf.cameraViewController pauseCapture];
-        weakSelf.percentageLabel.text = nil;
-    }];
+    UIViewController *presented = [self presentedViewController];
+    if(presented != nil) {
+        __weak typeof(self) weakSelf = self;
+        [self dismissViewControllerAnimated:YES completion:^{
+            [weakSelf presentViewController:navigationController animated:YES completion:^{
+                [weakSelf pauseCapturing];
+            }];
+        }];
+    } else {
+        __weak typeof(self) weakSelf = self;
+        [self presentViewController:navigationController animated:YES completion:^{
+            [weakSelf pauseCapturing];
+        }];
+    }
 }
 
 - (void)capturePreviewViewControllerDidSelectRetakeOption:(CHCapturePreviewViewController *)controller {
     __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         [weakSelf dismissViewControllerAnimated:YES completion:nil];
-        [weakSelf.cameraViewController resumeCapture];
+        [weakSelf resumeCapturing];
     });
 }
 
