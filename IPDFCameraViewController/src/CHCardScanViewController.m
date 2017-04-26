@@ -177,21 +177,13 @@ CHCapturePreviewViewControllerDelegate>
 #pragma mark - Controls
 
 - (void)showControls {
-    __weak typeof(self) weakSelf = self;
-    [UIView animateWithDuration:0.2f
-                     animations:^{
-        weakSelf.titleView.alpha = 1;
-        weakSelf.controlsView.alpha = 1;
-    }];
+    self.titleView.alpha = 1;
+    self.controlsView.alpha = 1;
 }
 
 - (void)hideControls {
-    __weak typeof(self) weakSelf = self;
-    [UIView animateWithDuration:0.2f
-                     animations:^{
-        weakSelf.titleView.alpha = 0;
-        weakSelf.controlsView.alpha = 0;
-    }];
+    self.titleView.alpha = 0;
+    self.controlsView.alpha = 0;
 }
 
 
@@ -228,6 +220,7 @@ CHCapturePreviewViewControllerDelegate>
     previewViewController.delegate = self;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:previewViewController];
     navigationController.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    navigationController.navigationBar.barStyle = UIBarStyleBlack;
     previewViewController.picture = self.captureImage;
     
     UIViewController *presented = [self presentedViewController];
