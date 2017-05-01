@@ -51,7 +51,7 @@ UIImagePickerControllerDelegate>
 {
     [super viewDidAppear:animated];
     [self.cameraViewController start];
-//    [self pauseCapturing];
+    [self pauseCapturing];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
