@@ -62,7 +62,7 @@
     [[self.preview.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor] setActive:YES];
     [[self.preview.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor] setActive:YES];
     [[self.preview.topAnchor constraintEqualToAnchor:self.view.topAnchor] setActive:YES];
-    [[self.preview.bottomAnchor constraintEqualToAnchor:self.continueButton.topAnchor constant:10] setActive:YES];
+    [[self.preview.bottomAnchor constraintEqualToAnchor:self.continueButton.topAnchor constant:-10] setActive:YES];
     self.preview.contentMode = UIViewContentModeScaleAspectFit;
     
     self.preview.image = self.picture;    
