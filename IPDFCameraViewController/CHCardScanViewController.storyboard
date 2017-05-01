@@ -21,81 +21,50 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dw5-Dw-cQp">
-                                <rect key="frame" x="0.0" y="20" width="375" height="64"/>
-                                <subviews>
-                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SCAN BUSINESS CARD" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RfT-Bc-t45">
-                                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="44" id="nP5-Sn-wTS"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="DINAlternate-Bold" family="DIN Alternate" pointSize="20"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="RfT-Bc-t45" secondAttribute="bottom" id="8aD-6T-Nvf"/>
-                                    <constraint firstAttribute="height" constant="64" id="Qc8-hj-Cm7"/>
-                                    <constraint firstItem="RfT-Bc-t45" firstAttribute="leading" secondItem="Dw5-Dw-cQp" secondAttribute="leading" id="RtJ-hR-gU6"/>
-                                    <constraint firstItem="RfT-Bc-t45" firstAttribute="top" secondItem="Dw5-Dw-cQp" secondAttribute="top" constant="20" id="TVp-mS-8Rr"/>
-                                    <constraint firstAttribute="trailing" secondItem="RfT-Bc-t45" secondAttribute="trailing" id="hIa-AM-jh0"/>
-                                </constraints>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GCS-Ur-8wm" customClass="IPDFCameraViewController">
-                                <rect key="frame" x="0.0" y="70" width="375" height="597"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <subviews>
-                                    <button hidden="YES" opaque="NO" alpha="0.69999998807907104" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nrc-IK-eNd">
-                                        <rect key="frame" x="155" y="477" width="66" height="66"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XAO-XJ-tot">
+                                        <rect key="frame" x="335" y="20" width="40" height="32"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="66" id="KVV-dS-8Ja"/>
-                                            <constraint firstAttribute="width" constant="66" id="ggu-oL-3Xq"/>
+                                            <constraint firstAttribute="width" constant="40" id="L8y-jc-9cs"/>
                                         </constraints>
-                                        <state key="normal" image="capture_button">
-                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" image="camera-close">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="captureButton:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="9ai-i6-v1I"/>
+                                            <action selector="closeButtonPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="f4f-j1-mCY"/>
                                         </connections>
                                     </button>
-                                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="focusIndicator" translatesAutoresizingMaskIntoConstraints="NO" id="ngc-U5-0Sq">
-                                        <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="75" id="UcJ-Md-mUn"/>
-                                            <constraint firstAttribute="width" constant="75" id="g78-ef-0lg"/>
-                                        </constraints>
-                                    </imageView>
-                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uJ6-Em-RcD" userLabel="Adjust Bar">
-                                        <rect key="frame" x="0.0" y="553" width="375" height="44"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uJ6-Em-RcD" userLabel="Adjust Bar">
+                                        <rect key="frame" x="0.0" y="603" width="375" height="44"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4cw-eb-M1Z">
-                                                <rect key="frame" x="295" y="0.0" width="80" height="44"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4cw-eb-M1Z">
+                                                <rect key="frame" x="335" y="0.0" width="40" height="44"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="80" id="bsG-EI-lgb"/>
+                                                    <constraint firstAttribute="width" constant="40" id="bsG-EI-lgb"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" name="DINAlternate-Bold" family="DIN Alternate" pointSize="15"/>
-                                                <state key="normal" title="Cancel">
+                                                <state key="normal" image="camera-flash-off">
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
+                                                <state key="selected" image="camera-flash"/>
                                                 <connections>
-                                                    <action selector="borderDetectToggle:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="9ei-47-p1V"/>
+                                                    <action selector="torchButtonPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="oSS-cC-U88"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wrX-wv-PHp">
-                                                <rect key="frame" x="0.0" y="0.0" width="80" height="44"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wrX-wv-PHp">
+                                                <rect key="frame" x="0.0" y="0.0" width="40" height="44"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="80" id="xW7-E8-Xjq"/>
+                                                    <constraint firstAttribute="width" constant="40" id="xW7-E8-Xjq"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" name="DINAlternate-Bold" family="DIN Alternate" pointSize="15"/>
-                                                <state key="normal" title="FLASH Off">
+                                                <state key="normal" image="camera-roll">
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="torchToggle:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="WMG-5d-8yi"/>
+                                                    <action selector="cameraRollButtonPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="laP-oG-APr"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -114,13 +83,11 @@
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <gestureRecognizers/>
                                 <constraints>
-                                    <constraint firstItem="ngc-U5-0Sq" firstAttribute="top" secondItem="GCS-Ur-8wm" secondAttribute="top" id="0hB-en-s3O"/>
                                     <constraint firstAttribute="trailing" secondItem="uJ6-Em-RcD" secondAttribute="trailing" id="AcU-Fg-BbF"/>
-                                    <constraint firstAttribute="centerX" secondItem="Nrc-IK-eNd" secondAttribute="centerX" id="OcF-vn-Io0"/>
                                     <constraint firstItem="uJ6-Em-RcD" firstAttribute="leading" secondItem="GCS-Ur-8wm" secondAttribute="leading" id="PLy-Jg-Hmu"/>
-                                    <constraint firstAttribute="bottom" secondItem="Nrc-IK-eNd" secondAttribute="bottom" constant="54" id="cnq-bJ-m2W"/>
                                     <constraint firstAttribute="bottom" secondItem="uJ6-Em-RcD" secondAttribute="bottom" id="ibZ-Wh-iqe"/>
-                                    <constraint firstItem="ngc-U5-0Sq" firstAttribute="leading" secondItem="uJ6-Em-RcD" secondAttribute="leading" id="lsn-NF-uW8"/>
+                                    <constraint firstItem="XAO-XJ-tot" firstAttribute="top" secondItem="GCS-Ur-8wm" secondAttribute="top" constant="20" id="mdG-yd-JH2"/>
+                                    <constraint firstAttribute="trailing" secondItem="XAO-XJ-tot" secondAttribute="trailing" id="oGd-BS-w2N"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -128,11 +95,8 @@
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="GCS-Ur-8wm" secondAttribute="trailing" id="QV5-lk-X0M"/>
-                            <constraint firstAttribute="trailing" secondItem="Dw5-Dw-cQp" secondAttribute="trailing" id="SBf-yp-XGq"/>
-                            <constraint firstItem="Dw5-Dw-cQp" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="SMW-z3-FG0"/>
-                            <constraint firstItem="Dw5-Dw-cQp" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="Spn-Cm-1Sr"/>
                             <constraint firstItem="GCS-Ur-8wm" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="U2w-WZ-lEB"/>
-                            <constraint firstItem="GCS-Ur-8wm" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="50" id="l2g-5w-cNR"/>
+                            <constraint firstItem="GCS-Ur-8wm" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="l2g-5w-cNR"/>
                             <constraint firstItem="GCS-Ur-8wm" firstAttribute="bottom" secondItem="2fi-mo-0CV" secondAttribute="top" id="rqF-2Q-0qr"/>
                         </constraints>
                         <connections>
@@ -142,9 +106,6 @@
                     <connections>
                         <outlet property="cameraViewController" destination="GCS-Ur-8wm" id="aK5-eV-i4e"/>
                         <outlet property="controlsView" destination="uJ6-Em-RcD" id="Fqo-8K-obs"/>
-                        <outlet property="focusIndicator" destination="ngc-U5-0Sq" id="WwM-0U-gCy"/>
-                        <outlet property="titleLabel" destination="RfT-Bc-t45" id="BeM-wN-7jN"/>
-                        <outlet property="titleView" destination="Dw5-Dw-cQp" id="EPw-cD-NmT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -157,7 +118,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="capture_button" width="66" height="66"/>
-        <image name="focusIndicator" width="75" height="75"/>
+        <image name="camera-close" width="33" height="32"/>
+        <image name="camera-flash" width="33" height="33"/>
+        <image name="camera-flash-off" width="32" height="33"/>
+        <image name="camera-roll" width="33" height="29"/>
     </resources>
 </document>

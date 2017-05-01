@@ -28,7 +28,20 @@ const CGFloat IMAGE_DETECTION_CONFIDENCE_THRESHOLD = 20;
 @property (nonatomic) CGPoint bottomRight;
 @property (nonatomic) CGPoint bottomLeft;
 
-@end @implementation IPDFRectangleFeature @end
+- (CGRect)rect;
+
+@end
+
+@implementation IPDFRectangleFeature
+
+- (CGRect)rect {
+    return CGRectMake(self.topLeft.x,
+                      self.topLeft.y,
+                      fabs(self.topRight.x - self.topLeft.x),
+                      fabs(self.topLeft.y - self.bottomLeft.y));
+}
+
+@end
 
 @interface IPDFCameraViewController () <AVCaptureVideoDataOutputSampleBufferDelegate>
 
@@ -88,9 +101,10 @@ const CGFloat IMAGE_DETECTION_CONFIDENCE_THRESHOLD = 20;
     
     if(self.isAutoCaptureEnabled &&
        [self.delegate conformsToProtocol:@protocol(IPDFCameraViewControllerCaptureDelegate)] &&
-       [self.delegate respondsToSelector:@selector(cameraViewController:didDetectPatronWithConfidence:)]) {
+       [self.delegate respondsToSelector:@selector(cameraViewController:didDetectPatronWithConfidence:overlayRect:)]) {
         NSAssert(self.confidenceThreshold > 0, @"Confidence Threshold cannot be zero or less");
-        [self.delegate cameraViewController:self didDetectPatronWithConfidence:MIN(_imageDedectionConfidence/self.confidenceThreshold, 1.0)];
+        [self.delegate cameraViewController:self didDetectPatronWithConfidence:MIN(_imageDedectionConfidence/self.confidenceThreshold, 1.0)
+                                overlayRect:_borderDetectLastRectangleFeature!=nil?[((IPDFRectangleFeature *)_borderDetectLastRectangleFeature) rect] :CGRectZero];
     }
     
     if (self.isAutoCaptureEnabled &&
@@ -395,7 +409,7 @@ const CGFloat IMAGE_DETECTION_CONFIDENCE_THRESHOLD = 20;
              NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageSampleBuffer];
              CIImage *enhancedImage = [[CIImage alloc] initWithData:imageData options:@{kCIImageColorSpace:[NSNull null]}];
              imageData = nil;
-                          
+             
              if (weakSelf.forceBlackAndWhiteCapture) {
                  enhancedImage = [self filteredImageUsingEnhanceFilterOnImage:enhancedImage];
              } else if (weakSelf.cameraViewType == IPDFCameraViewTypeBlackAndWhite)
@@ -459,22 +473,81 @@ const CGFloat IMAGE_DETECTION_CONFIDENCE_THRESHOLD = 20;
              CFRelease(imgRef);
              
              dispatch_async(dispatch_get_main_queue(), ^
-             {
-                 if (completionHandler != nil) {
-                     completionHandler(filePath);
-                 }
-                 if (weakSelf.autoCapturing &&
-                     [weakSelf.delegate conformsToProtocol:@protocol(IPDFCameraViewControllerCaptureDelegate)] &&
-                     [weakSelf.delegate respondsToSelector:@selector(cameraViewController:didAutoCaptureWith:)]) {
-                     [weakSelf.delegate cameraViewController:weakSelf didAutoCaptureWith:filePath];
-                     weakSelf.autoCapturing = NO;
-                 }
-                dispatch_resume(_captureQueue);
-             });
+                            {
+                                if (completionHandler != nil) {
+                                    completionHandler(filePath);
+                                }
+                                if (weakSelf.autoCapturing &&
+                                    [weakSelf.delegate conformsToProtocol:@protocol(IPDFCameraViewControllerCaptureDelegate)] &&
+                                    [weakSelf.delegate respondsToSelector:@selector(cameraViewController:didAutoCaptureWith:)]) {
+                                    [weakSelf.delegate cameraViewController:weakSelf didAutoCaptureWith:filePath];
+                                    weakSelf.autoCapturing = NO;
+                                }
+                                dispatch_resume(_captureQueue);
+                            });
              
              self.imageDedectionConfidence = 0.0f;
          }
      }];
+}
+
+- (void)processImage:(UIImage *)image WithCompletionHander:(IPDFCameraCaptureBlock)completionHandler {
+    
+    NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"ipdf_img_%i.jpeg",(int)[NSDate date].timeIntervalSince1970]];
+    
+    @autoreleasepool {
+        NSData *data = UIImageJPEGRepresentation(image, 0.8);
+        CIImage *enhancedImage = [[CIImage alloc] initWithData:data options:@{kCIImageColorSpace:[NSNull null]}];
+        enhancedImage = [self filteredImageUsingEnhanceFilterOnImage:enhancedImage];
+        
+        CIRectangleFeature *rectangleFeature = [self biggestRectangleInRectangles:[[self highAccuracyRectangleDetector] featuresInImage:enhancedImage]];
+        enhancedImage = [self correctPerspectiveForImage:enhancedImage withFeatures:rectangleFeature];
+        
+        CIFilter *transform = [CIFilter filterWithName:@"CIAffineTransform"];
+        [transform setValue:enhancedImage forKey:kCIInputImageKey];
+        NSValue *rotation = [NSValue valueWithCGAffineTransform:CGAffineTransformMakeRotation(-90 * (M_PI/180))];
+        [transform setValue:rotation forKey:@"inputTransform"];
+        enhancedImage = [transform outputImage];
+        
+        if (!enhancedImage || CGRectIsEmpty(enhancedImage.extent)) return;
+        
+        static CIContext *ctx = nil;
+        if (!ctx)
+        {
+            ctx = [CIContext contextWithOptions:@{kCIContextWorkingColorSpace:[NSNull null]}];
+        }
+        
+        CGSize bounds = enhancedImage.extent.size;
+        bounds = CGSizeMake(floorf(bounds.width / 4) * 4,floorf(bounds.height / 4) * 4);
+        CGRect extent = CGRectMake(enhancedImage.extent.origin.x, enhancedImage.extent.origin.y, bounds.width, bounds.height);
+        
+        static int bytesPerPixel = 8;
+        uint rowBytes = bytesPerPixel * bounds.width;
+        uint totalBytes = rowBytes * bounds.height;
+        uint8_t *byteBuffer = malloc(totalBytes);
+        
+        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+        
+        [ctx render:enhancedImage toBitmap:byteBuffer rowBytes:rowBytes bounds:extent format:kCIFormatRGBA8 colorSpace:colorSpace];
+        
+        CGContextRef bitmapContext = CGBitmapContextCreate(byteBuffer,bounds.width,bounds.height,bytesPerPixel,rowBytes,colorSpace,kCGImageAlphaNoneSkipLast);
+        CGImageRef imgRef = CGBitmapContextCreateImage(bitmapContext);
+        CGColorSpaceRelease(colorSpace);
+        CGContextRelease(bitmapContext);
+        free(byteBuffer);
+        
+        if (imgRef == NULL)
+        {
+            CFRelease(imgRef);
+            return;
+        }
+        saveCGImageAsJPEGToFilePath(imgRef, filePath);
+        CFRelease(imgRef);
+        
+        if(completionHandler!=nil) {
+            completionHandler(filePath);
+        }
+    }
 }
 
 void saveCGImageAsJPEGToFilePath(CGImageRef imageRef, NSString *filePath)

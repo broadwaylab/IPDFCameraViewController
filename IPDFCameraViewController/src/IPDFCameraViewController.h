@@ -42,7 +42,7 @@ typedef void (^IPDFCameraCaptureBlock)(NSString *imageFilePath);
  @param controller The camera view controller that performed the capture.
  @param confidence The confidence value.
  */
-- (void)cameraViewController:(IPDFCameraViewController *)controller didDetectPatronWithConfidence:(CGFloat)confidence;
+- (void)cameraViewController:(IPDFCameraViewController *)controller didDetectPatronWithConfidence:(CGFloat)confidence overlayRect:(CGRect)rect;
 @end
 
 @interface IPDFCameraViewController : UIView
@@ -86,5 +86,6 @@ typedef void (^IPDFCameraCaptureBlock)(NSString *imageFilePath);
 - (void)focusAtPoint:(CGPoint)point completionHandler:(void(^)())completionHandler;
 
 - (void)captureImageWithCompletionHander:(IPDFCameraCaptureBlock)completionHandler;
+- (void)processImage:(UIImage *)image WithCompletionHander:(IPDFCameraCaptureBlock)completionHandler;
 
 @end

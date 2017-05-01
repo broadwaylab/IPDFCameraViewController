@@ -13,6 +13,7 @@
 		22F8A01D1A6279030099DC69 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 22F8A01B1A6279030099DC69 /* LaunchScreen.xib */; };
 		5738EF6B1E9D789C007C9504 /* CHCardScanViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5738EF6A1E9D789C007C9504 /* CHCardScanViewController.storyboard */; };
 		576C2D781E9E8EEC00D25AF5 /* CHCapturePreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 576C2D771E9E8EEC00D25AF5 /* CHCapturePreviewViewController.m */; };
+		57FDB3651EB7ADDF0020E56B /* UIImagePickerController+CHPhotoPermissions.m in Sources */ = {isa = PBXBuildFile; fileRef = 57FDB3641EB7ADDF0020E56B /* UIImagePickerController+CHPhotoPermissions.m */; };
 		9DD3D3871E84374100AAD942 /* CHCardScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DD3D3831E84374100AAD942 /* CHCardScanViewController.m */; };
 		9DD3D3881E84374100AAD942 /* IPDFCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DD3D3861E84374100AAD942 /* IPDFCameraViewController.m */; };
 /* End PBXBuildFile section */
@@ -28,6 +29,8 @@
 		5738EF6A1E9D789C007C9504 /* CHCardScanViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CHCardScanViewController.storyboard; sourceTree = "<group>"; };
 		576C2D761E9E8EEC00D25AF5 /* CHCapturePreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHCapturePreviewViewController.h; sourceTree = "<group>"; };
 		576C2D771E9E8EEC00D25AF5 /* CHCapturePreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHCapturePreviewViewController.m; sourceTree = "<group>"; };
+		57FDB3631EB7ADDF0020E56B /* UIImagePickerController+CHPhotoPermissions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImagePickerController+CHPhotoPermissions.h"; sourceTree = "<group>"; };
+		57FDB3641EB7ADDF0020E56B /* UIImagePickerController+CHPhotoPermissions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImagePickerController+CHPhotoPermissions.m"; sourceTree = "<group>"; };
 		9DD3D3831E84374100AAD942 /* CHCardScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHCardScanViewController.m; sourceTree = "<group>"; };
 		9DD3D3841E84374100AAD942 /* CHCardScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHCardScanViewController.h; sourceTree = "<group>"; };
 		9DD3D3851E84374100AAD942 /* IPDFCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPDFCameraViewController.h; sourceTree = "<group>"; };
@@ -102,6 +105,8 @@
 				9DD3D3861E84374100AAD942 /* IPDFCameraViewController.m */,
 				576C2D761E9E8EEC00D25AF5 /* CHCapturePreviewViewController.h */,
 				576C2D771E9E8EEC00D25AF5 /* CHCapturePreviewViewController.m */,
+				57FDB3631EB7ADDF0020E56B /* UIImagePickerController+CHPhotoPermissions.h */,
+				57FDB3641EB7ADDF0020E56B /* UIImagePickerController+CHPhotoPermissions.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -179,6 +184,7 @@
 			files = (
 				22F8A0121A6279030099DC69 /* AppDelegate.m in Sources */,
 				22F8A00F1A6279030099DC69 /* main.m in Sources */,
+				57FDB3651EB7ADDF0020E56B /* UIImagePickerController+CHPhotoPermissions.m in Sources */,
 				9DD3D3881E84374100AAD942 /* IPDFCameraViewController.m in Sources */,
 				576C2D781E9E8EEC00D25AF5 /* CHCapturePreviewViewController.m in Sources */,
 				9DD3D3871E84374100AAD942 /* CHCardScanViewController.m in Sources */,

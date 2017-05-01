@@ -9,19 +9,19 @@
 #import "CHCardScanViewController.h"
 #import "IPDFCameraViewController.h"
 #import "CHCapturePreviewViewController.h"
+#import "UIImagePickerController+CHPhotoPermissions.h"
 
 @interface CHCardScanViewController ()
 
 <IPDFCameraViewControllerCaptureDelegate,
-CHCapturePreviewViewControllerDelegate>
+CHCapturePreviewViewControllerDelegate,
+UINavigationControllerDelegate,
+UIImagePickerControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet IPDFCameraViewController *cameraViewController;
-@property (strong, nonatomic) UILabel *percentageLabel;
-@property (strong, nonatomic) NSNumberFormatter *formatter;
 @property (strong, nonatomic) UIImage *captureImage;
 
 - (IBAction)focusGesture:(id)sender;
-- (IBAction)captureButton:(id)sender;
 
 @end
 
@@ -44,29 +44,14 @@ CHCapturePreviewViewControllerDelegate>
     [self.cameraViewController setForceBlackAndWhiteCapture:YES];
     
     // Overlay
-    self.overlayColor = [UIColor redColor];
-    
-    self.percentageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.percentageLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.view addSubview:self.percentageLabel];
-    [[self.percentageLabel.heightAnchor constraintEqualToConstant:30] setActive:YES];
-    [[self.percentageLabel.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor] setActive:YES];
-    [[self.percentageLabel.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor] setActive:YES];
-    [[self.percentageLabel.centerYAnchor constraintEqualToAnchor:self.view.centerYAnchor] setActive:YES];
-    self.percentageLabel.textColor = [UIColor whiteColor];
-    self.percentageLabel.font = [UIFont fontWithName:@"DINAlternate-Bold" size:22];
-    self.percentageLabel.text = nil;
-    self.percentageLabel.textAlignment = NSTextAlignmentCenter;
-    
-    self.formatter = [[NSNumberFormatter alloc] init];
-    [self.formatter setNumberStyle:NSNumberFormatterPercentStyle];
+    self.overlayColor = [[UIColor blackColor] colorWithAlphaComponent:0.7f];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     [self.cameraViewController start];
-    [self pauseCapturing];
+//    [self pauseCapturing];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
@@ -83,7 +68,7 @@ CHCapturePreviewViewControllerDelegate>
 }
 
 #pragma mark -
-#pragma mark CameraVC Actions
+#pragma mark Actions
 
 - (IBAction)focusGesture:(UITapGestureRecognizer *)sender
 {
@@ -102,97 +87,59 @@ CHCapturePreviewViewControllerDelegate>
 
 - (void)focusIndicatorAnimateToPoint:(CGPoint)targetPoint
 {
-    [self.focusIndicator setCenter:targetPoint];
-    self.focusIndicator.alpha = 0.0;
-    self.focusIndicator.hidden = NO;
-    
-    [UIView animateWithDuration:0.4 animations:^
-    {
-         self.focusIndicator.alpha = 1.0;
-    }
-    completion:^(BOOL finished)
-    {
-         [UIView animateWithDuration:0.4 animations:^
+    if(self.focusIndicator != nil) {
+        [self.focusIndicator setCenter:targetPoint];
+        self.focusIndicator.alpha = 0.0;
+        self.focusIndicator.hidden = NO;
+        
+        [UIView animateWithDuration:0.4 animations:^
          {
-             self.focusIndicator.alpha = 0.0;
+             self.focusIndicator.alpha = 1.0;
+         }
+                         completion:^(BOOL finished)
+         {
+             [UIView animateWithDuration:0.4 animations:^
+              {
+                  self.focusIndicator.alpha = 0.0;
+              }];
          }];
-     }];
+    }
 }
 
-- (IBAction)borderDetectToggle:(id)sender
+- (IBAction)closeButtonPressed:(id)sender
 {
-    // Cancel
     if (self.delegate != nil) {
         [self.delegate viewControllerDidCancel:self];
     }
 }
 
-- (IBAction)filterToggle:(id)sender
-{
-    [self.cameraViewController setCameraViewType:(self.cameraViewController.cameraViewType == IPDFCameraViewTypeBlackAndWhite) ? IPDFCameraViewTypeNormal : IPDFCameraViewTypeBlackAndWhite];
-}
-
-- (IBAction)torchToggle:(id)sender
+- (IBAction)torchButtonPressed:(UIButton *)sender
 {
     BOOL enable = !self.cameraViewController.isTorchEnabled;
-    [self changeButton:sender targetTitle:(enable) ? @"FLASH On" : @"FLASH Off" toStateEnabled:enable];
     self.cameraViewController.enableTorch = enable;
+    sender.selected = self.cameraViewController.isTorchEnabled;
 }
 
-- (void)changeButton:(UIButton *)button targetTitle:(NSString *)title toStateEnabled:(BOOL)enabled
-{
-    [button setTitle:title forState:UIControlStateNormal];
-    [button setTitleColor:(enabled) ? [UIColor colorWithRed:1 green:0.81 blue:0 alpha:1] : [UIColor whiteColor] forState:UIControlStateNormal];
+- (IBAction)cameraRollButtonPressed:(id)sender {
+    [self pauseCapturing];
+    [self checkImagePickerPermissions];
 }
-
-#pragma mark -
-#pragma mark CameraVC Capture Image
-
-- (IBAction)captureButton:(id)sender
-{
-    __weak typeof(self) weakSelf = self;
-    
-    [self.cameraViewController captureImageWithCompletionHander:^(NSString *imageFilePath)
-    {
-        [weakSelf processImageAt:imageFilePath];
-    }];
-}
-
-- (void)dismissPreview:(UITapGestureRecognizer *)dismissTap
-{
-    __weak typeof(self) weakSelf = self;
-
-    [UIView animateWithDuration:0.7 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:1.0 options:UIViewAnimationOptionAllowUserInteraction animations:^
-    {
-        dismissTap.view.frame = CGRectOffset(self.view.bounds, 0, self.view.bounds.size.height);
-    }
-    completion:^(BOOL finished)
-    {
-        weakSelf.cameraViewController.autoCaptureEnabled = YES;
-        [dismissTap.view removeFromSuperview];
-    }];
-}
-
-#pragma mark - 
-#pragma mark - Controls
-
-- (void)showControls {
-    self.titleView.alpha = 1;
-    self.controlsView.alpha = 1;
-}
-
-- (void)hideControls {
-    self.titleView.alpha = 0;
-    self.controlsView.alpha = 0;
-}
-
 
 #pragma mark - 
 #pragma mark - Capturing
 
+- (void)captureButton:(id)sender
+{
+    __weak typeof(self) weakSelf = self;
+    
+    [self.cameraViewController captureImageWithCompletionHander:^(NSString *imageFilePath)
+     {
+         [weakSelf processImageAt:imageFilePath];
+     }];
+}
+
 - (void)pauseCapturing {
     [self.cameraViewController pauseCapture];
-    self.percentageLabel.text = nil;
 }
 
 - (void)resumeCapturing {
@@ -263,15 +210,51 @@ CHCapturePreviewViewControllerDelegate>
     [self processImageAt:imageFilePath];
 }
 
-- (void)cameraViewController:(IPDFCameraViewController *)controller didDetectPatronWithConfidence:(CGFloat)confidence {
+- (void)cameraViewController:(IPDFCameraViewController *)controller didDetectPatronWithConfidence:(CGFloat)confidence overlayRect:(CGRect)rect {
     __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (confidence <= 0) {
-            weakSelf.percentageLabel.text = nil;
-        } else {
-            weakSelf.percentageLabel.text = [self.formatter stringFromNumber:@(confidence)];
-        }
+        [weakSelf.delegate viewController:weakSelf didDetectPatronWithConfidence:confidence overlayRect:rect];
     });
 }
+
+#pragma mark - 
+#pragma mark - UIImagePicker
+
+- (void)checkImagePickerPermissions {
+    __weak typeof(self) weakSelf = self;
+    [UIImagePickerController obtainPermissionForMediaSourceType:UIImagePickerControllerSourceTypePhotoLibrary
+                                             withSuccessHandler:^{
+        [weakSelf presentImagePicker];
+    } andFailure:^{
+        [weakSelf.delegate userDidDenyAccessToPhotosInViewController:weakSelf];
+        [weakSelf resumeCapturing];
+    }];
+}
+
+- (void)presentImagePicker {
+    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+    imagePickerController.modalPresentationStyle = UIModalPresentationCurrentContext;
+    imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    imagePickerController.delegate = self;
+    [self presentViewController:imagePickerController animated:YES completion:nil];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
+    __weak typeof(self) weakSelf = self;
+    [self dismissViewControllerAnimated:YES completion:^{
+        [weakSelf.cameraViewController processImage:image WithCompletionHander:^(NSString *imageFilePath) {
+            [weakSelf processImageAt:imageFilePath];
+        }];
+    }];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    __weak typeof(self) weakSelf = self;
+    [self dismissViewControllerAnimated:YES completion:^{
+        [weakSelf resumeCapturing];
+    }];
+}
+
 
 @end
